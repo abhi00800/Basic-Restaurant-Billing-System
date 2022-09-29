@@ -1,0 +1,229 @@
+	#include<stdio.h>
+	#include<string.h>
+	#include<stdlib.h>
+	
+	double price[7] = {30 , 44 , 169 , 250 , 69 , 179 , 16 };
+	
+	int adultNumber;
+	
+	float endprint;
+	
+	//Function Decleration
+	
+	void printMeals();
+	
+	void orderMeals();
+	
+	double Adult();
+	
+	
+	//Main function
+	
+	int main()
+	{
+	    char response = 'y';
+	    
+	     
+	     printMeals();
+	     while(response == 'y' || response == 'Y')
+	    {
+	            printf("\nPlease enter number of people :  ");
+	            scanf("%d",&adultNumber);
+	            
+	            orderMeals();
+	            
+	            printf("\n would you like to continue(y/n): ");
+	            scanf("\n%c",&response);
+	    }
+	    
+		//File Handeling
+		FILE *bs;
+	    char name[100]="";
+	    int d1,m1,y1;
+	    float Total;
+	    
+		bs = fopen("Billing_Info.txt", "a");
+	    
+		printf("\n Enter Customer Name: ");
+	     
+		 scanf("%s", name);
+	    
+		printf("\n Date (dd/mm/yy): ");
+	    
+		scanf("%d %d %d", &d1,&m1,&y1);
+	     
+		 fprintf(bs, "\nCustomer: %s\n", name);
+	     
+		 fprintf(bs, "\nDate: %d/%d/%d\n", d1,m1,y1);
+	    
+		fprintf(bs, "\nAmount: %f\n", endprint);
+	    
+		fprintf(bs,"--------------------------------------------------------");
+		
+		fclose(bs);
+	    
+	  
+	 printf("\n      ********** THANK YOU FOR COMING  **********\n");
+	 printf("\20********   PLEASE VISIT US NEXT TIME  **********\20 \n");
+	   system("pause");
+	
+	   return 0;
+	}
+	//Printing of menu
+	
+	void printMeals()
+	{
+	     
+	      printf("\t\t\t\t\t\1*******  WELCOME TO TAJ HOTEL  **********\1\n\n");
+	      
+		  printf(" \n\t\t\t Below is the menu:\20\n");
+	      
+		  printf(" \n\t\t\t MEALS:\t\t\tPRICE:\7\n");
+	     
+		  printf(" \t\t\t \22**************************\22\n");
+	      
+		  printf(" \t\t\t 1- Scrambled Egg\t30rs\n");
+	      
+		  printf(" \t\t\t 2- Coke\t\t44rs\n");
+	      
+		  printf(" \t\t\t 3- Pav Bhaji\t\t169rs\n");
+	      
+		  printf(" \t\t\t 4- Chicken Tikka\t250rs\n");
+	      
+		  printf(" \t\t\t 5- Gulab Jamun\t\t69rs\n");
+	      
+		  printf(" \t\t\t 6- Malai Kofta\t\t179rs\n");
+	      
+		  printf(" \t\t\t 7- Water\t\t20rs\n");
+	      
+	      printf("\n");
+	}
+	//Calculating final price
+	
+	void orderMeals()
+	{
+		int a,b;
+		float c,gross;
+		double TotalPrice;
+		double Payment,discount,Coupon;
+	         printf("\t\t** ORDER MENU **\n");  
+	         
+	         
+	        TotalPrice =  Adult();
+			Payment = TotalPrice ;
+	        
+	     printf("\n \t\t     \22**************\22    \n");
+	     
+		 printf(" \t\t   ******  FINAL BILL  ******    \n");
+	     
+		 printf(" \t\t\tPerson\t\tQuantity\t\tPrice\n");
+	     
+		 printf(" \t\t\tadults\t\t%d\t\t %5.2f\n",adultNumber,TotalPrice);
+	     
+		 printf(" \t\t\tTotal Bill\t\t\t %5.2f\n",Payment);
+	      
+		 
+	     
+	     if(Payment < 100)
+	     {
+	         printf("\n No Discount ");
+	     }
+	     else if(Payment >= 100 && Payment < 200)
+	     {
+	          discount = ((Payment * 1)/100);
+	      }
+	     else if(Payment >= 200 && Payment < 300)
+	          {
+			    discount = ((Payment * 1.5)/100);
+		      }
+	     else if(Payment >= 300 && Payment < 400)
+	     {
+	          discount = ((Payment * 2.0)/100);
+	      }
+		 else 
+		 {
+			  discount = ((Payment * 5.0)/100);
+		}
+			  
+			  printf("\nDo you have coupon (1/0):");
+			  
+			  scanf("%d",&a);
+			  
+			  if (a==1)
+			  {
+			  	Coupon = ((Payment * 15.0)/100);
+			  }
+			 discount = discount + Coupon;
+	        
+			 gross= Payment-discount;
+	         
+			 printf("\nDo you want to split the bill (1/0): ");
+	         
+			 scanf("%d", &b);
+	         
+			 if (b==1)
+	         {
+	          gross = gross/adultNumber;
+			 }
+			  printf(" \n\t\tTotal bill after discount and split is:\t%5.2f\n",gross);
+			  
+			  endprint=Payment;
+	
+	}
+	//Calculating for price before discount
+	
+	double Adult()
+	{
+	     int menuOption,i,amount;
+	      char response = 'y';
+	      double totalPerPerson = 0.0,totalAllPerson = 0.0;
+	      double tax = 5.0;
+	      
+		  if(adultNumber <=0)
+			   {
+			     printf("\n Invalid");
+		       }
+		  else 
+	      
+		  printf("\n\t No. of Person/s: %d\n", adultNumber);
+	      
+		  for(i=0;i<adultNumber;i++)
+	       {
+	               printf("\nPerson %d please enter your orders\n",i+1);
+	               
+				   while(response == 'y' || response == 'Y')
+	                {
+				   
+	                    printf("\nPlease enter your Dish No:");
+	                    
+						scanf("%d",&menuOption);
+						
+						if(menuOption<1 || menuOption>7)
+							{
+								printf("\nSorry we don`t have this on menu \n");
+								
+								continue;
+							}
+	                        
+							printf("\nPlease enter your quantity:");
+	                        
+							scanf("%d",&amount);
+	                           
+							    totalPerPerson = totalPerPerson + (amount * price[menuOption - 1] );
+	                              
+	                            printf("\nWould you like to enter more orders(y/n):");
+	                            
+								scanf("\n%c",&response);
+	                }
+	                  
+					   printf("\n");
+	                  
+					   totalAllPerson = totalAllPerson +  totalPerPerson;
+	                   
+					   totalPerPerson = 0.0;
+	                  
+					   response = 'y';
+	       }
+	     
+	     return totalAllPerson + ((totalAllPerson * tax) / 100);
+	}
